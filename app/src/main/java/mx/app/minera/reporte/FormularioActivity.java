@@ -1,9 +1,11 @@
 package mx.app.minera.reporte;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,17 +15,23 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity
+public class FormularioActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    Button guardar;
+    Button cancelar;
+    AlertDialog.Builder b;
+    Intent main;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_formulario);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -31,6 +39,36 @@ public class MainActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        guardar = (Button) findViewById(R.id.buttonGuardar);
+        cancelar = (Button) findViewById(R.id.buttonCancelar);
+
+        main = new Intent(getApplicationContext(), MainActivity.class);
+        guardar.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+                Toast.makeText(FormularioActivity.this, "Guardado con Exito", Toast.LENGTH_SHORT).show();
+
+                /*b = new AlertDialog.Builder(getApplicationContext());
+                b.setMessage("Guardado Correctamente")
+                        .setTitle("Mensaje")
+                        .setCancelable(false)
+                        .setPositiveButton("Aceptar",
+                                new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int i) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog alert = b.create();
+                alert.show();*/
+                startActivity(main);
+            }
+        });
+        cancelar.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View v){
+
+                startActivity(main);
+            }
+        });
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
     }
@@ -89,6 +127,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(main);
 
         }
+
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
